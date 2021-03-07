@@ -21,7 +21,7 @@
                 </div>
             </div>
             <div class="col-6 bg-white d-flex justify-content-center align-items-center h-100">
-                <form id="login-form" method="post" action="ServletAuth" class="col-6 border rounded-2 p-2 shadow">
+                <form id="login-form" method="post" action="ServletAuth" class="col-6 border rounded p-2 shadow">
               <div>
                   <h3 class="text-center font-weight-bold  uppercase">Login to your account</h3>
               </div>

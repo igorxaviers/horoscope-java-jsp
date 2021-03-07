@@ -4,8 +4,12 @@
     Author     : junior
 --%>
 <%
-    if(session.isNew()){
-        
+    String email = "";
+    if(session.getAttribute("email") == "" || session.getAttribute("email") == null)
+    {
+        response.sendRedirect("index.jsp");
+    }else{
+       email = (String) session.getAttribute("email");
     }
 %>
 
@@ -17,6 +21,7 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Horoscopo - <% session.getAttribute("email"); %></h1>
+        <a href="Servletloggout">Loggout </a>
+        <h1>Horoscopo - <%= email %></h1>
     </body>
 </html>
