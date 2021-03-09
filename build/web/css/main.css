@@ -3,19 +3,19 @@ html,body{
     padding: 0;
     height: 100vh;
     width: 100vw;
-    
+}
+body{
+    background-color: #F1F1F1;
 }
 
-body, #login-form{
-    background: #F47983;
-}
 #login-form{
-    color: white;
+    color: #333;
     font-weight: bold;
     font-size: 1.2rem;
 }
-.botao-diferenciado{
+.botao{
     background: #F47983;
+    box-shadow:#F47983 0px 10px 60px -20px;
     border: 1px solid #fff;
     color: white
 }
@@ -24,4 +24,18 @@ body, #login-form{
 }
 
 #bg-horoscope{
+    background-image: url("../imagens/astrology.png");
+    background-size: cover;
+    background-color: #F47983;
+}
+.title{
+    font-weight: 700;
+    font-size: 1.5em;
+}
+i{
+    transition: 300ms;
+    transition-timing-function: cubic-bezier(0.6, 0.77, 0, 1.18);
+}
+.btn:hover i{
+    transform: translateX(4px);
 }
