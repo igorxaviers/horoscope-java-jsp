@@ -14,7 +14,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.json.JSONObject;
+
+import util.Horoscopo;
 import util.Signo;
+
 
 /**
  *
@@ -24,39 +28,46 @@ import util.Signo;
 public class ServletGetHoroscope extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        String data = request.getParameter("data");
-        int dia = Integer.parseInt(data.split("-")[2]); 
-        int mes = Integer.parseInt(data.split("-")[1]);
-        String signo = Signo.getSigno(dia, mes);
-        boolean flag = false;
-        String dados[];
-        try {
+        response.setContentType("application/json");
+        String dados[] = {""};
+        String data="";
+        String dataSplit[] = new String[3];
+        String signo;
+        int dia, mes;
+        boolean flag;
+        try
+        {
+            data = request.getParameter("data");
+            dataSplit = data.split("-");
+            dia = Integer.parseInt(dataSplit[2]); 
+            mes = Integer.parseInt(dataSplit[1]);
+            signo = Signo.getSigno(dia, mes);
+            flag = false;
             RandomAccessFile arq = new RandomAccessFile(request.getServletContext().getRealPath("")+"//horoscopo.txt","r");
-            while(arq.getFilePointer()<arq.length() && flag!=true)
+            do
             {
-                dados = arq.readLine().split("#");      
+                dados = arq.readLine().split("#");
                 if(dados[0].equalsIgnoreCase(signo))
                     flag = true;
-            }
+            }while(arq.getFilePointer()<arq.length() || flag!=true);
             arq.close();  
-        } catch (Exception e) {
+        }
+        catch (IOException e) {
             System.out.println(e);
         }
 
 
         try (PrintWriter out = response.getWriter()) {
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ServletGetHoroscope</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>" + dia+mes + "</h1>");
-            out.println("<h1>" + signo +"</h1>");
-            // out.println("<h1>" + dados +"</h1>");
-            out.println("</body>");
-            out.println("</html>");
+            JSONObject obj = new JSONObject();
+            obj.put("signo", dados[0]);
+            obj.put("imagem", dados[1]);
+            obj.put("previsao", dados[2]);
+            out.print(obj);
+//            Horoscopo h = new Horoscopo(dados[0], dados[1], dados[2]);
+            // out.print(h.getSigno());
+            // out.print(h.getImagem());
+            // out.print(h.getPrevisao());
+
         }
     }
 
